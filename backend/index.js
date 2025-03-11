@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const sequelize = require('./app/config/db.conf');
+const cors = require('cors');
 
 // models
 const User = require('./app/models/user.model');
@@ -11,6 +12,13 @@ const userRoutes = require('./app/routes/user.transaction.route');
 const authRoutes = require('./app/routes/auth.route');
 
 const app = express()
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET,POST,PATCH,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization'
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

@@ -11,6 +11,7 @@ var jwt = require("jsonwebtoken");
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    console.log(req.body)
     try {
         const user = await getUserByEmail(email);
         // if user is found, validate password
@@ -46,6 +47,7 @@ router.post('/login', async (req, res) => {
                 message: "Invalid credentials"
             })
         }
+        console.log(error)
         res.status(500).json({ status: 'error', message: 'Internal server error' });
     }
 });
