@@ -8,6 +8,7 @@ const Transaction = require('./app/models/transaction.model');
 
 // routes
 const userRoutes = require('./app/routes/user.transaction.route');
+const authRoutes = require('./app/routes/auth.route');
 
 const app = express()
 
@@ -27,7 +28,8 @@ const syncDb = async () => {
 
 syncDb()
 
-app.use('/api', userRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

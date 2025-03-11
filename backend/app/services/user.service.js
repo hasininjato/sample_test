@@ -17,9 +17,12 @@ const createUser = async ({ fullname, email, password }) => {
 };
 
 
-const getAllUsers = async () => {
+const getAllUsers = async ({ limit, offset }) => {
     try {
-        const users = await User.findAll();
+        const users = await User.findAll({
+            limit: limit,
+            offset: offset
+        });
         return users;
     } catch (error) {
         throw new Error('Error fetching all users: ' + error.message);
@@ -30,12 +33,10 @@ const getUserById = async (id) => {
     try {
         const user = await User.findByPk(id);
         if (!user) {
-            console.log('ajk;ji')
             throw new Error('User not found');
         }
         return user;
     } catch (error) {
-        console.log('vncaihsdf')
         throw new Error(error.message);
     }
 };
@@ -76,10 +77,27 @@ const deleteUser = async (id) => {
     }
 }
 
+const getUserByEmail = async (email) => {
+    try {
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 module.exports = {
     createUser,
     getAllUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserByEmail
 };

@@ -19,6 +19,8 @@ WORKDIR /var/www/html/
 USER root
 RUN bash
 
+RUN npm install -g @vue/cli
+
 # Set up Nginx
 RUN mkdir -p /run/nginx
 

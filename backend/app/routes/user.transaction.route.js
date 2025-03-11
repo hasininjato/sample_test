@@ -2,9 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { createUser, getAllUsers, getUserById, updateUser, deleteUser } = require('../services/user.service');
 const { createTransaction, getUserTransactions } = require('../services/transaction.service');
+const verifyToken = require('../middlewares/auth.middleware');
 
 
-router.post('/users', async (req, res) => {
+/**
+ * public routes, everyone can create an user
+ */
+router.post('/', async (req, res) => {
     try {
         const { fullname, email, password } = req.body;
         const newUser = await createUser({ fullname, email, password });
@@ -22,15 +26,18 @@ router.post('/users', async (req, res) => {
                 errors: errors
             });
         }
-        // Handle other types of errors
         res.status(500).json({ status: 'error', message: 'Internal server error' });
     }
 });
 
 
-router.get('/users', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
+    // manual pagination for list of all users
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const offset = (page - 1) * limit;
     try {
-        const users = await getAllUsers();
+        const users = await getAllUsers({limit, offset});
         res.json(users);
     } catch (error) {
         console.log(error)
@@ -39,21 +46,21 @@ router.get('/users', async (req, res) => {
 
 
 // routes for transaction
-router.post('/users/:id/transactions', async (req, res) => {
+router.post('/:id/transactions', verifyToken, async (req, res) => {
     const { id } = req.params;
     const { amount } = req.body;
     const newTransaction = await createTransaction(id, amount);
     res.status(201).json(newTransaction);
 });
 
-router.get('/users/:id/transactions', async (req, res) => {
+router.get('/:id/transactions', verifyToken, async (req, res) => {
     const { id } = req.params;
     const transactions = await getUserTransactions(id);
     res.status(200).json(transactions);
 });
 // end routes for transaction
 
-router.get('/users/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     try {
         const user = await getUserById(id);
@@ -67,7 +74,7 @@ router.get('/users/:id', async (req, res) => {
 });
 
 
-router.put('/users/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     const { fullname, email, password } = req.body;
 
@@ -80,7 +87,7 @@ router.put('/users/:id', async (req, res) => {
 });
 
 
-router.delete('/users/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     await deleteUser(id);
     res.status(204).send();
