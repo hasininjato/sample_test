@@ -10,10 +10,13 @@ export const useTransactionStore = defineStore("transactoin", {
     actions: {
         async getItems() {
             try {
-                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQxNzgwMDk1LCJleHAiOjE3NDE3ODM2OTV9.jvJ1Bbb7T1pUAK2mNsrrKiiJtRhdP6eGpXU2fct9je8";
-                const items = await axios.get("http://localhost:8000/api/users/1/transactions", {
+                const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+                const accessToken = userLocalStorage.data.access_token;
+                // we also need to parse the user's id
+                const userId = userLocalStorage.data.id
+                const items = await axios.get(`http://localhost:8000/api/users/${userId}/transactions`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 })
 
