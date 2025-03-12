@@ -11,7 +11,6 @@ var jwt = require("jsonwebtoken");
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body)
     try {
         const user = await getUserByEmail(email);
         // if user is found, validate password
@@ -33,12 +32,23 @@ router.post('/login', async (req, res) => {
                 algorithm: 'HS256',
                 allowInsecureKeySizes: true,
                 expiresIn: 60 * 60, //TODO: to change to 15 but this is for testing purpose only
-            });
+            }
+        );
+        // generate refresh token, and store in cookie httponly, add secure if in https
+        const refreshToken = jwt.sign({ id: user.id },
+            process.env.JWT_REFRESH_SECRET,
+            {
+                algorithm: 'HS256',
+                allowInsecureKeySizes: true,
+                expiresIn: 60 * 60 * 24 * 7, //TODO: make the refresh token more longer (here 7 days)
+            }
+        );
         res.status(200).send({
             id: user.id,
             fullname: user.fullname,
             email: user.email,
-            access_token: accessToken
+            access_token: accessToken,
+            refresh_token: refreshToken
         });
     } catch (error) {
         if (error.message == "User not found") {
@@ -50,5 +60,8 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/validate-token', async (req, res) => {
+    const accessToken = req.query.accessToken;
+})
 
 module.exports = router;
