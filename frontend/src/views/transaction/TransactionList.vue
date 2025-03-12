@@ -1,7 +1,10 @@
 <template>
   <h1>My transactions</h1>
+  <div v-if="loading">
+    <VueSpinner size="100" color="bluecyan" />
+  </div>
   <!-- basic card list with vue -->
-  <div class="card-transaction-list center">
+  <div class="card-transaction-list center" v-if="!loading">
     <div v-for="item in items.Transactions" class="card-transaction">
       <small>{{ dateComputed(item) }}</small>
       <p>{{ item.description }}</p>
@@ -13,14 +16,18 @@
 <script setup>
 import { useTransactionStore } from "../../store/transaction.store";
 import { storeToRefs } from "pinia";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { VueSpinner } from "vue3-spinners";
 
 const transactionStore = useTransactionStore();
 
 const { items } = storeToRefs(transactionStore);
 
+const loading = ref(true); // default: show the loading
+
 async function fetchTransactions() {
   await transactionStore.getItems();
+  loading.value = false; // hide it after fetching results
 }
 
 const dateComputed = (item) => {

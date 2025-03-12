@@ -23,6 +23,7 @@ export const useTransactionStore = defineStore("transactoin", {
                 this.items = items.data;
             } catch (error) {
                 // catching errors
+                // TODO: use state for error
                 if (error.response) {
                     throw { response: error.response };
                 } else if (error.request) {

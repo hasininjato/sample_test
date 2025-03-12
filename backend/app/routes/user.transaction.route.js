@@ -55,8 +55,11 @@ router.post('/:id/transactions', verifyToken, async (req, res) => {
 
 router.get('/:id/transactions', verifyToken, async (req, res) => {
     const { id } = req.params;
-    const transactions = await getUserTransactions(id);
-    res.status(200).json(transactions);
+    // I put a 500 delay to clearly show the loader spinner when loading user's transactions
+    setTimeout(async () => {
+        const transactions = await getUserTransactions(id);
+        res.status(200).json(transactions);
+    }, 500);
 });
 // end routes for transaction
 
