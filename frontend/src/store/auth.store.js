@@ -49,5 +49,15 @@ export const useAuthStore = defineStore("auth", {
                 }
             }
         },
+        async validateToken() {
+            const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+            const accessToken = userLocalStorage.data.access_token;
+            try {
+                await axios.get(`http://localhost:8000/api/auth/validate-token?accessToken=${accessToken}`)
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
     },
 });
