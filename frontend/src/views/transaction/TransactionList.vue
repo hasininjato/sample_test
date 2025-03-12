@@ -1,3 +1,83 @@
 <template>
   <h1>My transactions</h1>
+  <!-- basic card list with vue -->
+  <div class="card-list center">
+    <div v-for="item in items.Transactions" class="card">
+      <small>{{ dateComputed(item) }}</small>
+      <p>{{ item.description }}</p>
+      <span>{{ item.amount }} $</span>
+    </div>
+  </div>
 </template>
+
+<script setup>
+import { useTransactionStore } from "../../store/transaction.store";
+import { storeToRefs } from "pinia";
+import { computed, onMounted } from "vue";
+
+const transactionStore = useTransactionStore();
+
+const { items } = storeToRefs(transactionStore);
+
+async function fetchTransactions() {
+  await transactionStore.getItems();
+}
+
+const dateComputed = (item) => {
+  const date = new Date(item.date);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    timeZone: "UTC", // I chose to use UTC
+  };
+  return date.toLocaleString("en-US", options);
+};
+
+onMounted(async () => {
+  await fetchTransactions();
+});
+</script>
+
+<style>
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  border: 3px solid none;
+  padding: 10px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card p,
+span {
+  margin: 0 0 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.card p {
+  background-color: rgba(222, 201, 110, 0.2);
+}
+
+.card small {
+  font-size: 0.8em;
+  color: #888;
+}
+</style>

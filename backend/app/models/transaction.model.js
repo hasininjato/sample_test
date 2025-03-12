@@ -14,6 +14,11 @@ const Transaction = sequelize.define('Transaction', {
         allowNull: true,
         unique: false,
     },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+    },
     date: {
         type: DataTypes.DATE,
         allowNull: false,

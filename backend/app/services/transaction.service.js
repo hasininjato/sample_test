@@ -1,8 +1,7 @@
 const User = require('../models/user.model');
 const Transaction = require('../models/transaction.model');
 
-const createTransaction = async (userId, amount) => {
-    console.log(userId)
+const createTransaction = async (userId, amount, description) => {
     try {
         const user = await User.findByPk(userId);
         if (!user) {
@@ -11,6 +10,7 @@ const createTransaction = async (userId, amount) => {
 
         const transaction = await Transaction.create({
             amount: amount,
+            description: description,
             userId: user.id,
         });
 
@@ -24,6 +24,7 @@ const getUserTransactions = async (userId) => {
     // solution for the part 1 question 4: N+1 problem => Sequelize proposes the eager loading solution to avoid this by including transactions of the user
     try {
         const user = await User.findByPk(userId, {
+            attributes: ['fullname', 'email'],
             include: [
                 {
                     model: Transaction,

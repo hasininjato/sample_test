@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
             {
                 algorithm: 'HS256',
                 allowInsecureKeySizes: true,
-                expiresIn: 60 * 15, // 15 min to ensure no long time access token
+                expiresIn: 60 * 60, //TODO: to change to 15 but this is for testing purpose only
             });
         res.status(200).send({
             id: user.id,

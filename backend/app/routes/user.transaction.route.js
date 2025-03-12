@@ -37,7 +37,7 @@ router.get('/', verifyToken, async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 10;
     const offset = (page - 1) * limit;
     try {
-        const users = await getAllUsers({limit, offset});
+        const users = await getAllUsers({ limit, offset });
         res.json(users);
     } catch (error) {
         console.log(error)
@@ -48,8 +48,8 @@ router.get('/', verifyToken, async (req, res) => {
 // routes for transaction
 router.post('/:id/transactions', verifyToken, async (req, res) => {
     const { id } = req.params;
-    const { amount } = req.body;
-    const newTransaction = await createTransaction(id, amount);
+    const { amount, description } = req.body;
+    const newTransaction = await createTransaction(id, amount, description);
     res.status(201).json(newTransaction);
 });
 
