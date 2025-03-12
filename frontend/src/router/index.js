@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 
 import HelloWord from '../components/HelloWorld.vue'
 import Login from '../views/authentication/Login.vue'
+import Register from '../views/authentication/Register.vue'
 import Home from '../views/Home.vue'
 import TransactionList from '../views/transaction/TransactionList.vue'
 import MainLayout from '../layouts/MainLayout.vue'
@@ -30,7 +31,8 @@ const routes = [
         ]
     },
     { path: '/test', component: HelloWord },
-    { path: '/login', component: Login },
+    { path: '/login', component: Login, name: "login" },
+    { path: '/register', component: Register, name: "register" },
 ]
 
 const router = createRouter({

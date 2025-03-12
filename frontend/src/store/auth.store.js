@@ -32,6 +32,22 @@ export const useAuthStore = defineStore("auth", {
         logout() {
             this.user = null;
             localStorage.removeItem('user');
-        }
+        },
+        async register(fullname, email, password) {
+            try {
+                const user = await axios.post("http://localhost:8000/api/users", {
+                    fullname, email, password
+                })
+            } catch (error) {
+                // catching errors
+                if (error.response) {
+                    throw { response: error.response };
+                } else if (error.request) {
+                    throw new Error("Server unavailable");
+                } else {
+                    throw new Error("Unexpected error")
+                }
+            }
+        },
     },
 });

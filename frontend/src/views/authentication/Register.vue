@@ -1,15 +1,31 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div v-if="success">
+        <h3 style="color: green">User successfully created.</h3>
+        <h3 style="color: green">Use your credentials to log in to the app</h3>
+        <RouterLink :to="{ name: 'login' }">Click here to log in</RouterLink>
+      </div>
+      <div class="col-md-6" v-if="!success">
         <div class="card">
-          <h2 class="card-header">Login</h2>
+          <h2 class="card-header">Register</h2>
           <div class="card-body">
             <Form
               @submit="onSubmit"
               :validation-schema="schema"
               v-slot="{ errors, isSubmitting }"
             >
+              <div class="form-group">
+                <Field
+                  name="fullname"
+                  type="text"
+                  class="form-control"
+                  placeholder="Full name"
+                  :class="{ 'is-invalid': errors.fullname }"
+                />
+                <div class="invalid-feedback">{{ errors.fullname }}</div>
+              </div>
+              <br />
               <div class="form-group">
                 <Field
                   name="email"
@@ -20,7 +36,6 @@
                 />
                 <div class="invalid-feedback">{{ errors.email }}</div>
               </div>
-
               <br />
               <div class="form-group">
                 <Field
@@ -43,14 +58,10 @@
                     v-show="isSubmitting"
                     class="spinner-border spinner-border-sm mr-1"
                   ></span>
-                  Login
+                  Register
                 </button>
               </div>
             </Form>
-            <br />
-            <RouterLink :to="{ name: 'register' }"
-              >Don't have an account ? Create one</RouterLink
-            >
           </div>
         </div>
       </div>
@@ -66,8 +77,10 @@ import { useAuthStore } from "../../store/auth.store";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const success = ref(false);
 const errorServer = ref("");
 const schema = Yup.object().shape({
+  fullname: Yup.string().required("Full name is required"),
   email: Yup.string().email("Email is not valid").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
@@ -75,10 +88,10 @@ const schema = Yup.object().shape({
 async function onSubmit(values) {
   const authStore = useAuthStore();
 
-  const { email, password } = values;
+  const { fullname, email, password } = values;
   try {
-    await authStore.login(email, password);
-    router.push("/");
+    await authStore.register(fullname, email, password);
+    success.value = true;
   } catch (error) {
     errorServer.value = error.response.data.message || "An excpeted error occurred";
   }
