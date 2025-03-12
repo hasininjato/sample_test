@@ -4,7 +4,8 @@ import axios from "axios";
 
 export const useTransactionStore = defineStore("transactoin", {
     state: () => ({
-        items: []
+        items: [],
+        totalItems: 0
     }),
 
     actions: {
@@ -21,6 +22,7 @@ export const useTransactionStore = defineStore("transactoin", {
                 })
 
                 this.items = items.data;
+                this.totalItems = items.data.Transactions.length;
             } catch (error) {
                 // catching errors
                 // TODO: use state for error

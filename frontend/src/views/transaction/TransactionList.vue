@@ -1,5 +1,8 @@
 <template>
   <h1>My transactions</h1>
+  <div v-if="totalItems == 0">
+    <span>There are no transactions yet for you</span>
+  </div>
   <div v-if="loading">
     <VueSpinner size="100" color="bluecyan" />
   </div>
@@ -21,7 +24,7 @@ import { VueSpinner } from "vue3-spinners";
 
 const transactionStore = useTransactionStore();
 
-const { items } = storeToRefs(transactionStore);
+const { items, totalItems } = storeToRefs(transactionStore);
 
 const loading = ref(true); // default: show the loading
 
