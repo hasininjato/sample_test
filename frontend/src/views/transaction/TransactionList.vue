@@ -1,8 +1,8 @@
 <template>
   <h1>My transactions</h1>
   <!-- basic card list with vue -->
-  <div class="card-list center">
-    <div v-for="item in items.Transactions" class="card">
+  <div class="card-transaction-list center">
+    <div v-for="item in items.Transactions" class="card-transaction">
       <small>{{ dateComputed(item) }}</small>
       <p>{{ item.description }}</p>
       <span>{{ item.amount }} $</span>
@@ -44,7 +44,7 @@ onMounted(async () => {
 </script>
 
 <style>
-.card-list {
+.card-transaction-list {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -57,7 +57,7 @@ onMounted(async () => {
   padding: 10px;
 }
 
-.card {
+.card-transaction {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -65,18 +65,18 @@ onMounted(async () => {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card p,
+.card-transaction p,
 span {
   margin: 0 0 8px;
   font-size: 0.9em;
   color: #555;
 }
 
-.card p {
+.card-transaction p {
   background-color: rgba(222, 201, 110, 0.2);
 }
 
-.card small {
+.card-transaction small {
   font-size: 0.8em;
   color: #888;
 }

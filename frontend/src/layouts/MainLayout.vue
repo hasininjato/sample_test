@@ -15,13 +15,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <router-link class="nav-link" :to="{ name: 'TransactionList' }">My transactions</router-link>
+          <router-link class="nav-link" :to="{ name: 'TransactionList' }"
+            >My transactions</router-link
+          >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'Home' }">My information</router-link>
+          <router-link class="nav-link" :to="{ name: 'Home' }"
+            >My information</router-link
+          >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'Home' }">Logout</router-link>
+          <a class="nav-link" @click="logout()">Logout</a>
         </li>
       </ul>
     </div>
@@ -31,3 +35,15 @@
     <router-view />
   </main>
 </template>
+
+<script setup>
+import { useAuthStore } from "../store/auth.store";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const authStore = useAuthStore();
+function logout() {
+  authStore.logout();
+  router.push("/login");
+}
+</script>

@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-
 export const useAuthStore = defineStore("auth", {
     state: () => ({
         user: JSON.parse(localStorage.getItem('user')),
@@ -29,6 +28,10 @@ export const useAuthStore = defineStore("auth", {
                     throw new Error("Unexpected error")
                 }
             }
+        },
+        logout() {
+            this.user = null;
+            localStorage.removeItem('user');
         }
     },
 });
