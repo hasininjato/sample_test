@@ -4,6 +4,7 @@ import HelloWord from '../components/HelloWorld.vue'
 import Login from '../views/authentication/Login.vue'
 import Register from '../views/authentication/Register.vue'
 import Home from '../views/Home.vue'
+import UserInfo from '../views/UserInfo.vue'
 import TransactionList from '../views/transaction/TransactionList.vue'
 import TransactionCreate from '../views/transaction/TransactionCreate.vue'
 import MainLayout from '../layouts/MainLayout.vue'
@@ -19,6 +20,11 @@ const routes = [
                 path: '',
                 component: Home,
                 name: 'Home'
+            },
+            {
+                path: 'user/info',
+                component: UserInfo,
+                name: 'UserInfo'
             }
         ]
     },

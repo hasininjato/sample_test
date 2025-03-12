@@ -20,7 +20,7 @@
           >
         </li>
         <li class="nav-item">
-          <RouterLink class="nav-link" :to="{ name: 'Home' }">My information</RouterLink>
+          <RouterLink class="nav-link" :to="{ name: 'UserInfo' }">My information</RouterLink>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click="logout()">Logout</a>

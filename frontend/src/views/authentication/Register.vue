@@ -74,9 +74,7 @@ import { ref } from "vue";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { useAuthStore } from "../../store/auth.store";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
 const success = ref(false);
 const errorServer = ref("");
 const schema = Yup.object().shape({

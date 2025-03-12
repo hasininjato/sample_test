@@ -31,7 +31,9 @@ const getAllUsers = async ({ limit, offset }) => {
 
 const getUserById = async (id) => {
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(id, {
+            attributes: ['fullname', 'email']
+        });
         if (!user) {
             throw new Error('User not found');
         }
