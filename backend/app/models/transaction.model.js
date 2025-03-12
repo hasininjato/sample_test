@@ -11,7 +11,7 @@ const Transaction = sequelize.define('Transaction', {
     },
     amount: {
         type: DataTypes.DECIMAL,
-        allowNull: true,
+        allowNull: false,
         unique: false,
     },
     description: {

@@ -5,6 +5,7 @@ import Login from '../views/authentication/Login.vue'
 import Register from '../views/authentication/Register.vue'
 import Home from '../views/Home.vue'
 import TransactionList from '../views/transaction/TransactionList.vue'
+import TransactionCreate from '../views/transaction/TransactionCreate.vue'
 import MainLayout from '../layouts/MainLayout.vue'
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
                 path: 'list',
                 component: TransactionList,
                 name: 'TransactionList'
+            },
+            {
+                path: 'create',
+                component: TransactionCreate,
+                name: 'TransactionCreate'
             }
         ]
     },

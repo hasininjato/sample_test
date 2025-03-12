@@ -15,14 +15,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <router-link class="nav-link" :to="{ name: 'TransactionList' }"
-            >My transactions</router-link
+          <RouterLink class="nav-link" :to="{ name: 'TransactionList' }"
+            >My transactions</RouterLink
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'Home' }"
-            >My information</router-link
-          >
+          <RouterLink class="nav-link" :to="{ name: 'Home' }">My information</RouterLink>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click="logout()">Logout</a>

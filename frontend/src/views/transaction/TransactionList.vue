@@ -1,6 +1,8 @@
 <template>
   <h1>My transactions</h1>
-  <div v-if="totalItems == 0">
+  <RouterLink :to="{ name: 'TransactionCreate' }">Create a new transaction</RouterLink>
+  <br/>
+  <div v-if="totalItems == 0 && !loading">
     <span>There are no transactions yet for you</span>
   </div>
   <div v-if="loading">
