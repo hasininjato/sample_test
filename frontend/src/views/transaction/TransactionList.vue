@@ -21,7 +21,7 @@
 <script setup>
 import { useTransactionStore } from "../../store/transaction.store";
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { VueSpinner } from "vue3-spinners";
 
 const transactionStore = useTransactionStore();

@@ -1,3 +1,3 @@
 <template>
-  <h1>test h1</h1>
+  <h3>Welcome to this app. You can make your transactions.</h3>
 </template>

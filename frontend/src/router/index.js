@@ -7,6 +7,8 @@ import Home from '../views/Home.vue'
 import TransactionList from '../views/transaction/TransactionList.vue'
 import TransactionCreate from '../views/transaction/TransactionCreate.vue'
 import MainLayout from '../layouts/MainLayout.vue'
+import { useRouter } from "vue-router";
+
 
 const routes = [
     {
@@ -48,13 +50,18 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     document.title = 'Sample app test';
-    next();
-    // Scroll page to top on every route change
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-    });
+    const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+    if (to.name == "login") {
+        if (userLocalStorage) {
+            return next("/");
+        }
+        next();
+    } else {
+        if (userLocalStorage == null) {
+            return next("/login");
+        }
+        next();
+    }
 });
 
 export default router;
