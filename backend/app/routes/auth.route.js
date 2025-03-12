@@ -60,8 +60,22 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// this route should be protected by JWT refresh token
 router.get('/validate-token', async (req, res) => {
     const accessToken = req.query.accessToken;
+    jwt.verify(accessToken,
+        process.env.JWT_SECRET,
+        (err, decoded) => {
+            if (err) {
+                return res.status(401).send({
+                    message: "Unauthorized",
+                });
+            }
+            req.userId = decoded.id;
+            res.status(200).send({
+                message: "Token valid"
+            })
+        });
 })
 
 module.exports = router;
