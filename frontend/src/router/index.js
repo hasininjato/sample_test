@@ -2,8 +2,10 @@ import { createWebHistory, createRouter } from 'vue-router'
 
 import HelloWord from '../components/HelloWorld.vue'
 import Login from '../views/authentication/Login.vue'
+import Home from '../views/Home.vue'
 
 const routes = [
+    { path: '/', component: Home },
     { path: '/test', component: HelloWord },
     { path: '/login', component: Login },
 ]

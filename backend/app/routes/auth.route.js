@@ -42,12 +42,10 @@ router.post('/login', async (req, res) => {
         });
     } catch (error) {
         if (error.message == "User not found") {
-            return res.status(404).json({
-                accessToken: null,
+            return res.status(401).json({
                 message: "Invalid credentials"
             })
         }
-        console.log(error)
         res.status(500).json({ status: 'error', message: 'Internal server error' });
     }
 });
