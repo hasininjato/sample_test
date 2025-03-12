@@ -1,10 +1,10 @@
-# About
+# A propos
 
-This is the backend part of the test sample from L3M Holding
+Il s'agit de la partie backend de de test technique de L3M Holding.
 
 
 # Configuration
 
-Rename .env.example to .env (it has the same value as .env used for PostgreSQL in Docker)
+Renommer .env.example en .env (même valeur que pour .env de Docker, en plus de JWT_SECRET généré avec la commande `openssl rand -base64 64` depuis le container)
 
-Execute the command `./commands/docker-exec.sh` then `cd backend`, then install dependencies with `npm install`
+Pour exécuter le container, on exécute la commande `./commands/docker-exec.sh`, puis `cd backend`. On install ensuite les dépendances `npm install`

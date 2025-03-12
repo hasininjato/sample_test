@@ -1,20 +1,20 @@
-# About the project
+# A propos de ce projet
 
-This is the repository for the test project from L3M Holding. It uses ExpressJS for backend, PostgreSQL as database management system and VueJS for frontend.
+Il s'agit du dépôt du projet de test de L3M Holding. Il utilise ExpressJS pour le backend, PostgreSQL comme système de gestion de base de données et VueJS pour le frontend.
 
 
-# Build the project
+# Configuration du projet
 
-First rename .env.example to .env
+Renommer .env.example en .env
 
-Fill values for Postgres connection (user, password, database name).
+Donner les informations de connection à la base Postgres dans .env (utilisateur, mot de passe et nom de la base)
 
-The script inside Docker/db/init-db.sh creates database, user and configure all privileges.
+Le script bash Docker/db/init-db.sh crée la base, l'utilisateur et configure ses privilèges
 
-We use nginx to easily manage running containers. Its configuration file is inside Docker/vhosts/nginx.local.conf.
+Nous utilisons nginx pour gérer facilement les conteneurs en cours d'exécution. Son fichier de configuration se trouve dans Docker/vhosts/nginx.local.conf.
 
-To build the project, run the command `./commands/docker-build.bat`
+Pour builder les containers, exécuter la commande `./commands/docker-build.bat`
 
-To start the project, run the command `./commands/docker-start.bat`
+Pour démarrer les containers, run the command `./commands/docker-start.bat`
 
-To execute the running container, run the command `./command/docker-exec.bat`
+Pour exécuter le container en cours d'exécution (listable depuis la commande `docker ps`), exécuter la commande `./command/docker-exec.bat`
