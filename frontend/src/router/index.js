@@ -3,9 +3,32 @@ import { createWebHistory, createRouter } from 'vue-router'
 import HelloWord from '../components/HelloWorld.vue'
 import Login from '../views/authentication/Login.vue'
 import Home from '../views/Home.vue'
+import TransactionList from '../views/transaction/TransactionList.vue'
+import MainLayout from '../layouts/MainLayout.vue'
 
 const routes = [
-    { path: '/', component: Home },
+    {
+        path: '/',
+        component: MainLayout,
+        children: [
+            {
+                path: '',
+                component: Home,
+                name: 'Home'
+            }
+        ]
+    },
+    {
+        path: '/transaction',
+        component: MainLayout,
+        children: [
+            {
+                path: 'list',
+                component: TransactionList,
+                name: 'TransactionList'
+            }
+        ]
+    },
     { path: '/test', component: HelloWord },
     { path: '/login', component: Login },
 ]
@@ -16,9 +39,6 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    
-    // const sessionStore = useSessionStore();
-    // current page view title
     document.title = 'Sample app test';
     next();
     // Scroll page to top on every route change
