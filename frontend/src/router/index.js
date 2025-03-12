@@ -1,52 +1,43 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import HelloWord from '../components/HelloWorld.vue'
-import Login from '../views/authentication/Login.vue'
-import Register from '../views/authentication/Register.vue'
-import Home from '../views/Home.vue'
-import UserInfo from '../views/UserInfo.vue'
-import TransactionList from '../views/transaction/TransactionList.vue'
-import TransactionCreate from '../views/transaction/TransactionCreate.vue'
-import MainLayout from '../layouts/MainLayout.vue'
 import { useAuthStore } from "../store/auth.store";
 
 
 const routes = [
     {
         path: '/',
-        component: MainLayout,
+        component: import("../layouts/MainLayout.vue"),
         children: [
             {
                 path: '',
-                component: Home,
+                component: import("../views/Home.vue"),
                 name: 'Home'
             },
             {
                 path: 'user/info',
-                component: UserInfo,
+                component: import("../views/UserInfo.vue"),
                 name: 'UserInfo'
             }
         ]
     },
     {
         path: '/transaction',
-        component: MainLayout,
+        component: import("../layouts/MainLayout.vue"),
         children: [
             {
                 path: 'list',
-                component: TransactionList,
+                component: import("../views/transaction/TransactionList.vue"),
                 name: 'TransactionList'
             },
             {
                 path: 'create',
-                component: TransactionCreate,
+                component: import("../views/transaction/TransactionCreate.vue"),
                 name: 'TransactionCreate'
             }
         ]
     },
-    { path: '/test', component: HelloWord },
-    { path: '/login', component: Login, name: "login" },
-    { path: '/register', component: Register, name: "register" },
+    { path: '/login', component: import("../views/authentication/Login.vue"), name: "login" },
+    { path: '/register', component: import("../views/authentication/Register.vue"), name: "register" },
 ]
 
 const router = createRouter({
