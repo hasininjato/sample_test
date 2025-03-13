@@ -7,9 +7,18 @@ const router = express.Router();
 const { getUserByEmail } = require('../services/user.service');
 const bcrypt = require('bcrypt');
 var jwt = require("jsonwebtoken");
+const Joi = require('joi');
 
-
+// we begin with simple validation
+const userSchema = Joi.object({
+    password: Joi.string().required(),
+    email: Joi.string().email().required()
+});
 router.post('/login', async (req, res) => {
+    const { error, value } = userSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+    }
     const { email, password } = req.body;
     try {
         const user = await getUserByEmail(email);

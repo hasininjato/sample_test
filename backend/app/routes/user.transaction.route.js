@@ -3,12 +3,22 @@ const router = express.Router();
 const { createUser, getAllUsers, getUserById, updateUser, deleteUser } = require('../services/user.service');
 const { createTransaction, getUserTransactions } = require('../services/transaction.service');
 const verifyToken = require('../middlewares/auth.middleware');
-
+const Joi = require('joi');
 
 /**
  * public routes, everyone can create an user
  */
+// we begin with simple validation
+const userSchema = Joi.object({
+    fullname: Joi.string().required(),
+    password: Joi.string().required(),
+    email: Joi.string().email().required()
+});
 router.post('/', async (req, res) => {
+    const { error, value } = userSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+    }
     try {
         const { fullname, email, password } = req.body;
         const newUser = await createUser({ fullname, email, password });
@@ -42,7 +52,15 @@ router.get('/', verifyToken, async (req, res) => {
 
 
 // routes for transaction
+const transactionSchema = Joi.object({
+    description: Joi.string().required(),
+    amount: Joi.number().min(0).required()
+});
 router.post('/:id/transactions', verifyToken, async (req, res) => {
+    const { error, value } = transactionSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+    }
     const { id } = req.params;
     const { amount, description } = req.body;
     try {
