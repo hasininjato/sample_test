@@ -27,7 +27,7 @@ const createUser = async ({ fullname, email, password }) => {
             }));
             throw { name: "ValidationError", errors: validationErrors };
         }
-        throw new Error(error);
+        throw new Error('Error when creating the transaction: ' + error.message);
     }
 };
 

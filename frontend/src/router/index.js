@@ -57,7 +57,7 @@ router.beforeEach(async (to, from, next) => {
             return next("/login");
         }
     }
-    if (to.name == "login") {
+    if (to.name == "login" || to.name == "register") {
         if (userLocalStorage) {
             return next("/");
         }

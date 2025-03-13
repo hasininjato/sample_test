@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const Transaction = require('../models/transaction.model');
+const { ValidationError } = require('sequelize');
 
 const createTransaction = async (userId, amount, description) => {
     try {
@@ -16,6 +17,13 @@ const createTransaction = async (userId, amount, description) => {
 
         return transaction;
     } catch (error) {
+        if (error instanceof ValidationError) {
+            const validationErrors = error.errors.map(err => ({
+                field: err.path,
+                message: err.message
+            }));
+            throw { name: "ValidationError", errors: validationErrors };
+        }
         throw new Error('Error when creating the transaction: ' + error.message);
     }
 };

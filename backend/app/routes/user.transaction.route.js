@@ -49,8 +49,11 @@ router.post('/:id/transactions', verifyToken, async (req, res) => {
         const newTransaction = await createTransaction(id, amount, description);
         res.status(201).json(newTransaction);
     } catch (error) {
+        if (error.name === "ValidationError") {
+            return res.status(400).json({ errors: error.errors });
+        }
 
-        console.log(error)
+        return res.status(500).json({ message: "Internal server error" });
     }
 });
 
@@ -100,8 +103,12 @@ router.put('/:id', verifyToken, async (req, res) => {
 
 router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
-    await deleteUser(id);
-    res.status(204).send();
+    try {
+        await deleteUser(id);
+        res.status(204).send();
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
 
 module.exports = router;

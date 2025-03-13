@@ -62,6 +62,10 @@
                 </button>
               </div>
             </Form>
+            <br />
+            <RouterLink :to="{ name: 'login' }"
+              >Have an account ? Log in</RouterLink
+            >
           </div>
         </div>
       </div>
