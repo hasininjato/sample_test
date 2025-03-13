@@ -4,11 +4,9 @@ C'est la partie backend pour le test technique de L3M Holding.
 
 
 # Configuration
+Pour exécuter le container, on exécute la commande `./commands/docker-exec.sh`, puis `cd backend`. On installe ensuite les dépendances `npm install`. Pour exécuter le serveur Express, on exécute la commande `npm run dev`.
 
-Renommer .env.example en .env (même valeur que pour .env de Docker, en plus de JWT_SECRET généré avec la commande `openssl rand -base64 64` depuis le container)
-
-Pour exécuter le container, on exécute la commande `./commands/docker-exec.sh`, puis `cd backend`. On installe ensuite les dépendances `npm install`
-
+Renommer .env.example en .env (même valeur que pour .env de Docker, en plus de JWT_SECRET et JWT_REFRESH_SECRET générés avec la commande `openssl rand -base64 64` depuis le container)
 
 # Comment tester l'API
 
