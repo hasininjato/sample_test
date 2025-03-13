@@ -111,8 +111,8 @@ router.put('/:id', verifyToken, async (req, res) => {
     const { fullname, email, password } = req.body;
 
     try {
-        const updatedUser = await updateUser(id, { fullname, email, password });
-        res.status(200).json(updatedUser);
+        await updateUser(id, { fullname, email, password });
+        res.status(204);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

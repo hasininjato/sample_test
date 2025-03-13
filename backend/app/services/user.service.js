@@ -36,6 +36,7 @@ const createUser = async ({ fullname, email, password }) => {
 const getAllUsers = async ({ limit, offset }) => {
     try {
         const users = await User.findAll({
+            attributes: ['id', 'fullname', 'email'],
             limit: limit,
             offset: offset
         });
@@ -48,7 +49,7 @@ const getAllUsers = async ({ limit, offset }) => {
 const getUserById = async (id) => {
     try {
         const user = await User.findByPk(id, {
-            attributes: ['fullname', 'email']
+            attributes: ['id', 'fullname', 'email']
         });
         if (!user) {
             throw new Error('User not found');
