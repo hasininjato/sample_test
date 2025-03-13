@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const sequelize = require('./app/config/db.conf');
 const cors = require('cors');
+const helmet = require("helmet")
 
 // models
 const User = require('./app/models/user.model');
@@ -23,6 +24,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }))
+
+app.use(helmet());
 
 const port = 8000
 
