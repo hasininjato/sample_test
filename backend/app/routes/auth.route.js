@@ -15,6 +15,74 @@ const userSchema = Joi.object({
     password: Joi.string().required(),
     email: Joi.string().email().required()
 });
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserLogin:
+ *       type: object
+ *       required:
+ *         - fullname
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: Email de l'utilisateur
+ *         password:
+ *           type: string
+ *           description: Mot de passe de l'utilisateur
+ *       example:
+ *         email: email@test.com
+ *         password: test
+ */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserLoginResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Id de l'utilisateur
+ *         fullname:
+ *           type: string
+ *           description: Nom de l'utilisateur
+ *         email:
+ *           type: string
+ *           description: Email de l'utilisateur
+ *         access_token:
+ *           type: string
+ *           description: Access token généré
+ *       example:
+ *         email: email@test.com
+ *         password: test
+ */
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Log in an user
+ *     description: Log in an user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserLogin'
+ *     responses:
+ *       '200':
+ *         description: Login réussi
+ *         contents:
+ *           applciation/json:
+ *             schema:
+ *               $ref: '#components/schemas/UserLoginResponse'
+ *       '401':
+ *         description: Invalid credentials
+ *       '500':
+ *         description: Internal server error
+ */
 router.post('/login', async (req, res) => {
     const { error, value } = userSchema.validate(req.body);
     if (error) {
@@ -44,22 +112,11 @@ router.post('/login', async (req, res) => {
                 expiresIn: 60 * 60, //TODO: to change to 15 but this is for testing purpose only
             }
         );
-        // generate refresh token, and store in cookie httponly, add secure if in https => on hold, refresh token is not taken into account
-        // using refresh token and store in httponly secure cookie would be a best practice to secure and smooth user experience on log in
-        const refreshToken = jwt.sign({ id: user.id },
-            process.env.JWT_REFRESH_SECRET,
-            {
-                algorithm: 'HS256',
-                allowInsecureKeySizes: true,
-                expiresIn: 60 * 60 * 24 * 7, //TODO: make the refresh token more longer (here 7 days)
-            }
-        );
         res.status(200).send({
             id: user.id,
             fullname: user.fullname,
             email: user.email,
-            access_token: accessToken,
-            refresh_token: refreshToken
+            access_token: accessToken
         });
     } catch (error) {
         if (error.message == "User not found") {
