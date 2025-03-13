@@ -14,26 +14,15 @@ router.post('/', async (req, res) => {
         const newUser = await createUser({ fullname, email, password });
         res.status(201).json(newUser);
     } catch (error) {
-        if (error.message.includes('SequelizeValidationError')) {
-            const errors = {
-                message: error.message
-            }
-            return res.status(400).json({
-                status: 'error',
-                message: 'Validation error',
-                errors: errors
-            });
-        } else if (error.message.includes('SequelizeUniqueConstraintError')) {
-            const errors = {
-                message: error.message
-            }
-            return res.status(409).json({
-                status: 'error',
-                message: 'This email is already in use',
-                errors: errors
-            });
+        if (error.name === "ValidationError") {
+            return res.status(400).json({ errors: error.errors });
         }
-        res.status(500).json({ status: 'error', message: 'Internal server error' });
+
+        if (error.name === "UniqueConstraintError") {
+            return res.status(409).json({ errors: error.errors });
+        }
+
+        return res.status(500).json({ message: "Internal server error" });
     }
 });
 

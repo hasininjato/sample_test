@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const { ValidationError, UniqueConstraintError } = require('sequelize');
 
 const createUser = async ({ fullname, email, password }) => {
     try {
@@ -12,6 +13,20 @@ const createUser = async ({ fullname, email, password }) => {
         });
         return user;
     } catch (error) {
+        if (error instanceof UniqueConstraintError) {
+            const uniqueErrors = error.errors.map(err => ({
+                field: err.path,
+                message: err.message
+            }));
+            throw { name: "UniqueConstraintError", errors: uniqueErrors };
+        }
+        if (error instanceof ValidationError) {
+            const validationErrors = error.errors.map(err => ({
+                field: err.path,
+                message: err.message
+            }));
+            throw { name: "ValidationError", errors: validationErrors };
+        }
         throw new Error(error);
     }
 };
