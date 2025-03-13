@@ -13,11 +13,24 @@ const Transaction = sequelize.define('Transaction', {
         type: DataTypes.DECIMAL,
         allowNull: false,
         unique: false,
+        validate: {
+            notNull: { msg: "Amount is required" },
+            isDecimal: { msg: "Amount must be a valid decimal number" },
+            notEmpty: { msg: "Amount cannot be empty" },
+            min: {
+                args: [0.01],
+                msg: "Amount must be greater than 0"
+            }
+        }
     },
     description: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
+        validate: {
+            notNull: { msg: "Description is required" },
+            notEmpty: { msg: "Description cannot be empty" }
+        }
     },
     date: {
         type: DataTypes.DATE,

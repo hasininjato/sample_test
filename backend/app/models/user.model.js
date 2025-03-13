@@ -10,14 +10,20 @@ const User = sequelize.define('User', {
     },
     fullname: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         unique: false,
+        validate: {
+            notNull: { msg: "Full name is required" },
+            notEmpty: { msg: "Full name cannot be empty" }
+        }
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
+            notNull: { msg: "Email is required" },
+            notEmpty: { msg: "Email cannot be empty" },
             isEmail: {
                 msg: "Invalid email"
             }
