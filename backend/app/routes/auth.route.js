@@ -1,5 +1,6 @@
 /**
- * routes for authentication (login/logout), signup is the same as POST /users
+ * routes for authentication (login, no backend process for logout, we only delete localstorage in front),
+ * signup is the same as POST /users
  */
 require('dotenv').config();
 const express = require('express');
@@ -43,7 +44,8 @@ router.post('/login', async (req, res) => {
                 expiresIn: 60 * 60, //TODO: to change to 15 but this is for testing purpose only
             }
         );
-        // generate refresh token, and store in cookie httponly, add secure if in https
+        // generate refresh token, and store in cookie httponly, add secure if in https => on hold, refresh token is not taken into account
+        // using refresh token and store in httponly secure cookie would be a best practice to secure and smooth user experience on log in
         const refreshToken = jwt.sign({ id: user.id },
             process.env.JWT_REFRESH_SECRET,
             {
@@ -69,7 +71,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// this route should be protected by JWT refresh token
+// this route should be protected by JWT refresh token, but for now public for all to validate a jwt token
 router.get('/validate-token', async (req, res) => {
     const accessToken = req.query.accessToken;
     jwt.verify(accessToken,

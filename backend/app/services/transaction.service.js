@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const Transaction = require('../models/transaction.model');
 const { ValidationError } = require('sequelize');
 
+// services for transaction
 const createTransaction = async (userId, amount, description) => {
     try {
         const user = await User.findByPk(userId);
@@ -32,7 +33,7 @@ const getUserTransactions = async (userId) => {
     // solution for the part 1 question 4: N+1 problem => Sequelize proposes the eager loading solution to avoid this by including transactions of the user
     try {
         const user = await User.findByPk(userId, {
-            attributes: ['fullname', 'email'],
+            attributes: ['fullname', 'email'], // remove password when select
             include: [
                 {
                     model: Transaction,

@@ -6,9 +6,9 @@ const verifyToken = require('../middlewares/auth.middleware');
 const Joi = require('joi');
 
 /**
- * public routes, everyone can create an user
+ * public routes, everyone can create an user (signup)
  */
-// we begin with simple validation
+// we begin with simple validation using joi
 const userSchema = Joi.object({
     fullname: Joi.string().required(),
     password: Joi.string().required(),

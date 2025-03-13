@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const { ValidationError, UniqueConstraintError } = require('sequelize');
 
+// service for user
 const createUser = async ({ fullname, email, password }) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);

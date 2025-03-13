@@ -1,4 +1,5 @@
 <template>
+  <!-- a simple fixed top navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <button
       class="navbar-toggler"

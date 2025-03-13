@@ -41,7 +41,7 @@ export default async function (id, options = {}) {
 
     if (!response.ok) {
         const data = await response.json();
-        const error = data["hydra:description"] || response.statusText;
+        const error = data["description"] || response.statusText;
         if (!data.violations) throw Error(error);
 
         throw new Error(error);

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const jwt = require("jsonwebtoken");
 
+// a middleware to validate Bearer token sent by the frontend
 verifyToken = async (req, res, next) => {
     let token = req.headers["authorization"];
 

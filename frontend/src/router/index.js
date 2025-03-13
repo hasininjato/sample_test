@@ -3,7 +3,10 @@ import { createWebHistory, createRouter } from 'vue-router'
 import { useAuthStore } from "../store/auth.store";
 
 
+// on a grown project, we need to separate routes for better clarity
+// we use lazy loading for better performance on loading components
 const routes = [
+    // we use Mainlayout component as parent
     {
         path: '/',
         component: import("../layouts/MainLayout.vue"),
@@ -46,6 +49,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+    // wee protect routes, make some publics and some only accessed by authenticated user
     document.title = 'Sample app test';
     const userLocalStorage = JSON.parse(localStorage.getItem('user'));
     const authStore = useAuthStore();
