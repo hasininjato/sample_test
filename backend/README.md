@@ -1,6 +1,6 @@
 # A propos
 
-Il s'agit de la partie backend de de test technique de L3M Holding.
+C'est la partie backend pour le test technique de L3M Holding.
 
 
 # Configuration
