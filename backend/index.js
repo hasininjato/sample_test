@@ -44,6 +44,15 @@ const swaggerOptions = {
                 name: 'Hasininjato Rojovaao'
             },
         },
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
         servers: [
             {
                 url: "http://localhost:8000/api"

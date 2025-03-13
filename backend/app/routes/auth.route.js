@@ -22,7 +22,6 @@ const userSchema = Joi.object({
  *     UserLogin:
  *       type: object
  *       required:
- *         - fullname
  *         - email
  *         - password
  *       properties:
@@ -63,8 +62,9 @@ const userSchema = Joi.object({
  * @swagger
  * /auth/login:
  *   post:
- *     summary: Log in an user
- *     description: Log in an user
+ *     summary: Authentifier un utilisateur
+ *     description: Authentifier un utilisateur
+ *     tags: ['Authentification']
  *     requestBody:
  *       required: true
  *       content:

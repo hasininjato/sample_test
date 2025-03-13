@@ -14,6 +14,98 @@ const userSchema = Joi.object({
     password: Joi.string().required(),
     email: Joi.string().email().required()
 });
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserGet:
+ *       type: object
+ *       required:
+ *         - fullname
+ *         - email
+ *       properties:
+ *         fullname:
+ *           type: string
+ *           description: Nom de l'utilisateur
+ *         email:
+ *           type: string
+ *           description: Email de l'utilisateur
+ *       example:
+ *         fullname: Name
+ *         email: email@test.com
+ */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserCreationResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Id de l'utilisateur
+ *         fullname:
+ *           type: string
+ *           description: Nom de l'utilisateur
+ *         email:
+ *           type: string
+ *           description: Email de l'utilisateur
+ *         access_token:
+ *           type: string
+ *           description: Access token généré
+ *       example:
+ *         email: email@test.com
+ *         password: test
+ */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         fullname:
+ *           type: string
+ *           description: Nom de l'utilisateur
+ *         email:
+ *           type: string
+ *           description: Email de l'utilisateur
+ *         password:
+ *           type: string
+ *           description: Mot de passe
+ *       example:
+ *         fullname: Nom de l'utilisateur
+ *         email: email@test.com
+ *         password: test
+ */
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Créer un utilisateur
+ *     tags: ['Utilisateur']
+ *     description: Créer un utilisateur
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       '200':
+ *         description: Création réussie
+ *         contents:
+ *           applciation/json:
+ *             schema:
+ *               $ref: '#components/schemas/UserCreationResponse'
+ *       '400':
+ *         description: Bad request
+ *       '409':
+ *         description: Unique constraint error
+ *       '500':
+ *         description: Internal server error
+ */
 router.post('/', async (req, res) => {
     const { error, value } = userSchema.validate(req.body);
     if (error) {
@@ -92,6 +184,35 @@ router.get('/:id/transactions', verifyToken, async (req, res) => {
 });
 // end routes for transaction
 
+/**
+ * @swagger
+ * 
+ * /users/{id}:
+ *   get:
+ *     summary: Récupérer un utilisateur par son id
+ *     description: Récupérer un utilisateur par son id
+ *     tags: ['Utilisateur']
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id de l'utilisateur
+ *     responses:
+ *       '200':
+ *         description: Utilisateur
+ *         contents:
+ *           applciation/json:
+ *             schema:
+ *               $ref: '#components/schemas/UserGet'
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
+ */
 router.get('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     try {
@@ -101,11 +222,47 @@ router.get('/:id', verifyToken, async (req, res) => {
         if (error.message.includes("User not found")) {
             return res.status(404).json({ message: error.message })
         }
+        console.log(error)
         res.status(500).json({ status: 'error', message: 'Internal server error' });
     }
 });
 
 
+/**
+ * @swagger
+ * 
+ * /users/{id}:
+ *   put:
+ *     summary: Mettre à jour un utilisateur
+ *     description: Mettre à jour un utilisateur
+ *     tags: ['Utilisateur']
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id de l'utilisateur
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       '200':
+ *         description: Utilisateur
+ *         contents:
+ *           applciation/json:
+ *             schema:
+ *               $ref: '#components/schemas/User'
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
+ */
 router.put('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     const { fullname, email, password } = req.body;
@@ -119,6 +276,29 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 
+/**
+ * @swagger
+ * 
+ * /users/{id}:
+ *   delete:
+ *     summary: Supprimer un utilisateur
+ *     description: Supprimer un utilisateur
+ *     tags: ['Utilisateur']
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id de l'utilisateur
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       '204':
+ *         description: No content
+ *       '500':
+ *         description: Internal server error
+ */
 router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     try {
