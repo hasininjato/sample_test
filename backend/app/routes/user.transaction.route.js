@@ -148,6 +148,55 @@ const transactionSchema = Joi.object({
     description: Joi.string().required(),
     amount: Joi.number().min(0).required()
 });
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Transaction:
+ *       type: object
+ *       properties:
+ *         description:
+ *           type: string
+ *           description: Description de la transaction
+ *         amount:
+ *           type: string
+ *           description: Montant de l transaction
+ *       example:
+ *         description: transaction 01
+ *         amount: 20.5
+ */
+/**
+ * @swagger
+ * 
+ * /users/{id}/transactions:
+ *   post:
+ *     summary: Créer une nouvelle transaction
+ *     description: Créer une nouvelle transaction
+ *     tags: ['Transaction']
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Transaction'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id de l'utilisateur
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Transactions
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
+ */
 router.post('/:id/transactions', verifyToken, async (req, res) => {
     const { error, value } = transactionSchema.validate(req.body);
     if (error) {
@@ -167,6 +216,32 @@ router.post('/:id/transactions', verifyToken, async (req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * 
+ * /users/{id}/transactions:
+ *   get:
+ *     summary: Récupérer les transactions d'un utilisateur
+ *     description: Récupérer les transactions d'un utilisateur
+ *     tags: ['Transaction']
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id de l'utilisateur
+ *     responses:
+ *       '200':
+ *         description: Transactions
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
+ */
 router.get('/:id/transactions', verifyToken, async (req, res) => {
     const { id } = req.params;
     // I put a 500 delay to clearly show the loader spinner when loading user's transactions
