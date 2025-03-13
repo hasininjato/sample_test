@@ -10,6 +10,8 @@ Renommer .env.example en .env (même valeur que pour .env de Docker, en plus de 
 
 # Comment tester l'API
 
+## On peut accéder à la documentation de l'API en allant vers http://localhost:8000/docs/ (Utilisant Swagger et OpenAPI, il se peut que les réponses décrites dans cette documentation soient encore incomplètes par manque de temps)
+
 Voici les endpoints de cette API:
 ## Pour l'authentification et la gestion des utilisateurs
 
